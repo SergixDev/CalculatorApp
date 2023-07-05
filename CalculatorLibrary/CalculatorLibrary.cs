@@ -1,22 +1,39 @@
 ﻿using Newtonsoft.Json;
 using System.Diagnostics;
+using System;
+using System.IO;
+using System.Text;
 
 namespace CalculatorLibrary
 {
     public class Calculator
     {
         JsonWriter writer;
-
-        public Calculator()
+        
+        public Calculator(string recordAll)
         {
-            StreamWriter logFile = File.CreateText("calculatorlog.json");
-            logFile.AutoFlush = true;
-            writer = new JsonTextWriter(logFile);
-            writer.Formatting = Formatting.Indented;
-            writer.WriteStartObject();
-            writer.WritePropertyName("Operations");
-            writer.WriteStartArray();
+            if (recordAll == "y")  //this will record all the information during executions
+            {
+                StreamWriter sw = new StreamWriter("calculatorlog.json", true, Encoding.ASCII);
+                writer = new JsonTextWriter(sw);
+                writer.Formatting = Formatting.Indented;
+                writer.WriteStartObject();
+                writer.WritePropertyName("Operations");
+                writer.WriteStartArray();
+            }
+
+            else   //this option will clear the file and record only this execution
+            {
+                StreamWriter logFile = File.CreateText("calculatorlog.json");
+                logFile.AutoFlush = true;
+                writer = new JsonTextWriter(logFile);
+                writer.Formatting = Formatting.Indented;
+                writer.WriteStartObject();
+                writer.WritePropertyName("Operations");
+                writer.WriteStartArray();
+            }
         }
+        
 
         public double DoOperation(double num1, double num2, string op)
         {
@@ -24,8 +41,11 @@ namespace CalculatorLibrary
             writer.WriteStartObject();
             writer.WritePropertyName("Operand1");
             writer.WriteValue(num1);
-            writer.WritePropertyName("Operand2");
-            writer.WriteValue(num2);
+            if (op != "f")
+            {
+                writer.WritePropertyName("Operand2");
+                writer.WriteValue(num2);
+            }
             writer.WritePropertyName("Operation");
             // Use a switch statement to do the math.
             switch (op)
@@ -50,6 +70,14 @@ namespace CalculatorLibrary
                     }
                     writer.WriteValue("Divide");
                     break;
+                case "e":
+                    result = calcExponent(num1, num2);
+                    writer.WriteValue("Exponent");
+                    break;
+                case "f":
+                    result = calcFactorial(num1);
+                    writer.WriteValue("Factorial");
+                    break;
                 // Return text for an incorrect option entry.
                 default:
                     break;
@@ -59,6 +87,19 @@ namespace CalculatorLibrary
             writer.WriteEndObject();
 
             return result;
+        }
+
+        public Double calcExponent(double num1, double num2)
+        {
+            if (num2 == 0) return 1;
+            else return num1 * calcExponent(num1, num2 - 1);   
+        }
+
+        public Double calcFactorial(double num1)
+        {
+            if(num1 < 0) return double.NaN;
+            else if (num1 == 0) return 1;
+            else return num1 * calcFactorial(num1 - 1);
         }
 
         public void Finish()

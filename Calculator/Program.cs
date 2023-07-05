@@ -13,7 +13,13 @@ namespace CalculatorProgram
             Console.WriteLine("Console Calculator in C#\r");
             Console.WriteLine("------------------------\n");
 
-            Calculator calculator = new Calculator();
+            Console.WriteLine("First of all, do you want to record the information during executions?:");
+            Console.WriteLine("\ty - Yes, record all");
+            Console.WriteLine("\tn - No, record only this execution");
+            Console.Write("Your option? ");
+            string record = Console.ReadLine();
+
+            Calculator calculator = new Calculator(record);
 
             while (!endApp)
             {
@@ -21,6 +27,21 @@ namespace CalculatorProgram
                 string numInput1 = "";
                 string numInput2 = "";
                 double result = 0;
+
+
+                // Ask the user to choose an operator.
+                Console.WriteLine("Choose an operator from the following list:");
+                Console.WriteLine("\ta - Add");
+                Console.WriteLine("\ts - Subtract");
+                Console.WriteLine("\tm - Multiply");
+                Console.WriteLine("\td - Divide");
+                Console.WriteLine("\te - Exponent");
+                Console.WriteLine("\tf - Factorial");
+                Console.Write("Your option? ");
+
+                string op = Console.ReadLine();
+
+
 
                 // Ask the user to type the first number.
                 Console.Write("Type a number, and then press Enter: ");
@@ -33,26 +54,18 @@ namespace CalculatorProgram
                     numInput1 = Console.ReadLine();
                 }
 
-                // Ask the user to type the second number.
-                Console.Write("Type another number, and then press Enter: ");
-                numInput2 = Console.ReadLine();
-
                 double cleanNum2 = 0;
-                while (!double.TryParse(numInput2, out cleanNum2))
+                if (op != "f") //if we do not want to calculate a factorial
                 {
-                    Console.Write("This is not valid input. Please enter an integer value: ");
+                    // Ask the user to type the second number 
+                    Console.Write("Type another number, and then press Enter: ");
                     numInput2 = Console.ReadLine();
+                    while (!double.TryParse(numInput2, out cleanNum2))
+                    {
+                        Console.Write("This is not valid input. Please enter an integer value: ");
+                        numInput2 = Console.ReadLine();
+                    }
                 }
-
-                // Ask the user to choose an operator.
-                Console.WriteLine("Choose an operator from the following list:");
-                Console.WriteLine("\ta - Add");
-                Console.WriteLine("\ts - Subtract");
-                Console.WriteLine("\tm - Multiply");
-                Console.WriteLine("\td - Divide");
-                Console.Write("Your option? ");
-
-                string op = Console.ReadLine();
 
                 try
                 {
