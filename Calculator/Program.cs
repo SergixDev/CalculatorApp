@@ -36,7 +36,11 @@ namespace CalculatorProgram
                 Console.WriteLine("\tm - Multiply");
                 Console.WriteLine("\td - Divide");
                 Console.WriteLine("\te - Exponent");
-                Console.WriteLine("\tf - Factorial");
+                Console.WriteLine("\tf - Factorial(int)");
+                Console.WriteLine("\tmax - Maximum of 2 numbers");
+                Console.WriteLine("\tmin - Minimum of 2 numbers");
+                Console.WriteLine("\troot - SquareRoot(srqt)");
+
                 Console.Write("Your option? ");
 
                 string op = Console.ReadLine();
@@ -55,7 +59,7 @@ namespace CalculatorProgram
                 }
 
                 double cleanNum2 = 0;
-                if (op != "f") //if we do not want to calculate a factorial
+                if (op != "f" && op != "root") //if we do not want to calculate a factorial
                 {
                     // Ask the user to type the second number 
                     Console.Write("Type another number, and then press Enter: ");

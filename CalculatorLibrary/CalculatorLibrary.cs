@@ -41,7 +41,7 @@ namespace CalculatorLibrary
             writer.WriteStartObject();
             writer.WritePropertyName("Operand1");
             writer.WriteValue(num1);
-            if (op != "f")
+            if (op != "f" && op != "root")
             {
                 writer.WritePropertyName("Operand2");
                 writer.WriteValue(num2);
@@ -78,6 +78,20 @@ namespace CalculatorLibrary
                     result = calcFactorial(num1);
                     writer.WriteValue("Factorial");
                     break;
+                case "max":
+                    if (num1 >= num2) result = num1;
+                    else result = num2;
+                    writer.WriteValue("Maximum of 2 numbers");
+                    break;
+                case "min":
+                    if (num1 <= num2) result = num1;
+                    else result = num2;
+                    writer.WriteValue("Minimum of 2 numbers");
+                    break;
+                case "root":
+                    result = Math.Sqrt(num1);
+                    writer.WriteValue("Square root");
+                    break;
                 // Return text for an incorrect option entry.
                 default:
                     break;
@@ -95,7 +109,7 @@ namespace CalculatorLibrary
             else return num1 * calcExponent(num1, num2 - 1);   
         }
 
-        public Double calcFactorial(double num1)
+        public Double calcFactorial(double num1) 
         {
             if(num1 < 0) return double.NaN;
             else if (num1 == 0) return 1;
